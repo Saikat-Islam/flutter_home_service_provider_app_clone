@@ -2,13 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_home_service_provider_app_clone/AppUtils/app_font_size.dart';
 import 'package:flutter_home_service_provider_app_clone/AppUtils/app_font_weight.dart';
 
-/*
-Title: AppTextStyle Used through App
-Purpose:AppTextStyle Used through App
-Created On:12/06/2024
-Edited On:12/06/2024
-Author: Kalpesh Khandla
-*/
 
 class AppTextStyle {
   static TextStyle welcomeStyle = const TextStyle(

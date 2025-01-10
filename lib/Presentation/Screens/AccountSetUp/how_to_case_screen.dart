@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_home_service_provider_app_clone/AppUtils/app_colors.dart';
 import 'package:flutter_home_service_provider_app_clone/AppUtils/app_images.dart';
@@ -15,6 +17,48 @@ class HowToCaseScreen extends StatefulWidget {
 }
 
 class _HowToCaseState extends State<HowToCaseScreen> {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  String selectedType = "";
+
+  Future<void> saveAccountType(String pricingType) async {
+    final hourlyFeeController = _hourlyFeeController.text.trim();
+    final flatFeeController = _flatFeeController.text.trim();
+    final additionalInfoController = _additionalInfoController.text.trim();
+
+    if (hourlyFeeController.isEmpty &&
+        flatFeeController.isEmpty &&
+        additionalInfoController.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Please enter amount')),
+      );
+      return;
+    }
+
+    try {
+      selectedType = pricingType;
+
+      await _firestore
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .set({
+        'accountType': pricingType,
+        'hourly fee': hourlyFeeController,
+        'flat fee': flatFeeController
+        // 'updatedAt': FieldValue.serverTimestamp(),
+      }, SetOptions(merge: true));
+
+      // Get.snackbar('Success', 'Account type saved successfully!');
+    } catch (e) {
+      if (selectedType!.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Please select an option')),
+        );
+        return;
+      }
+    }
+  }
+
   String _selectedPricingMethod = AppStrings.hourlyfee;
   final TextEditingController _hourlyFeeController = TextEditingController();
   final TextEditingController _flatFeeController = TextEditingController();
@@ -128,6 +172,7 @@ class _HowToCaseState extends State<HowToCaseScreen> {
                 unit: '/h',
                 onTap: () {
                   setState(() {
+                    selectedType = "Hourley fee";
                     _selectedPricingMethod = AppStrings.hourlyfee;
                   });
                 },
@@ -140,6 +185,7 @@ class _HowToCaseState extends State<HowToCaseScreen> {
                 unit: '',
                 onTap: () {
                   setState(() {
+                    selectedType = "Flat fee";
                     _selectedPricingMethod = AppStrings.flatfee;
                   });
                 },
@@ -164,7 +210,11 @@ class _HowToCaseState extends State<HowToCaseScreen> {
                 height: 30,
               ),
               InkWell(
-                onTap: _showConfirmationDialog,
+                // onTap: _showConfirmationDialog,saveAccountType(selectedType);
+                onTap: () {
+                  _showConfirmationDialog();
+                  saveAccountType(selectedType);
+                },
                 child: const ButtonStyleWidget(
                   title: AppStrings.submit,
                   colors: AppColors.blueColors,

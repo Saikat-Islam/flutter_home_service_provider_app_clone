@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_home_service_provider_app_clone/AppUtils/app_colors.dart';
 import 'package:flutter_home_service_provider_app_clone/AppUtils/app_images.dart';
@@ -17,8 +19,50 @@ class ServiceWorkingHoursScreen extends StatefulWidget {
 }
 
 class _ServiceWorkingHoursState extends State<ServiceWorkingHoursScreen> {
-  TextEditingController startingTime = TextEditingController();
-  TextEditingController endingTime = TextEditingController();
+  TextEditingController _startingTime = TextEditingController();
+  TextEditingController _endingTime = TextEditingController();
+  String selectedType = "";
+
+  void saveWorkingHours(String order) async {
+    final startingTime = _startingTime.text.trim();
+    final endingTime = _endingTime.text.trim();
+
+    if (startingTime.isEmpty && endingTime.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Please enter working hours.')),
+      );
+      return;
+    }
+
+    try {
+      selectedType = order;
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .set({
+        'work starting hours': startingTime,
+        'work ending hours': endingTime,
+        'receive order from': order
+      }, SetOptions(merge: true));
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                UploadDocumentScreen()), // Replace with your next page
+      );
+    } catch (e) {
+      if (selectedType!.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Please select receive order method')),
+        );
+        return;
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error saving data: $e')),
+      );
+    }
+  }
+
   bool select1 = false;
   bool select2 = false;
   String iconTrue = AppImages.trueselectImg;
@@ -71,7 +115,7 @@ class _ServiceWorkingHoursState extends State<ServiceWorkingHoursScreen> {
                 ),
               ),
               TextFromFieldWidget(
-                controller: startingTime,
+                controller: _startingTime,
                 hintText: AppStrings.eightAM,
                 colors: Colors.black,
               ),
@@ -84,7 +128,7 @@ class _ServiceWorkingHoursState extends State<ServiceWorkingHoursScreen> {
                     .copyWith(fontSize: 14, fontWeight: FontWeight.w500),
               ),
               TextFromFieldWidget(
-                controller: endingTime,
+                controller: _endingTime,
                 hintText: AppStrings.eightPM,
                 colors: Colors.black,
               ),
@@ -101,6 +145,7 @@ class _ServiceWorkingHoursState extends State<ServiceWorkingHoursScreen> {
               InkWell(
                 onTap: () {
                   setState(() {
+                    selectedType = "Service Sphere";
                     img1 = iconTrue;
                     img2 = iconFalse;
                     select1 = true;
@@ -119,6 +164,7 @@ class _ServiceWorkingHoursState extends State<ServiceWorkingHoursScreen> {
               InkWell(
                 onTap: () {
                   setState(() {
+                    selectedType = "Client";
                     img1 = iconFalse;
                     img2 = iconTrue;
                     select1 = false;
@@ -136,12 +182,7 @@ class _ServiceWorkingHoursState extends State<ServiceWorkingHoursScreen> {
               ),
               InkWell(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const UploadDocumentScreen(),
-                    ),
-                  );
+                  saveWorkingHours(selectedType);
                 },
                 child: const ButtonStyleWidget(
                   title: AppStrings.next,

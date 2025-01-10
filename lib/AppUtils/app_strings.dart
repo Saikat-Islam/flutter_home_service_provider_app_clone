@@ -1,12 +1,5 @@
 import 'package:flutter/material.dart';
 
-/*
-Title:AppStrings
-Purpose:AppStrings
-Created On:12/06/2024
-Edited On:12/06/2024
-Author: Kalpesh Khandla
-*/
 
 class AppStrings {
   // Common Used AppStrings
@@ -18,10 +11,10 @@ class AppStrings {
 
   //
 
-  static const String welcome = 'Welcome To Fixit';
+  static const String welcome = 'Welcome To Service Sphere';
   static const String discover = 'Discover a world of convenience and';
   static const String reliability =
-      'reliability. Fixit is your one stop solution';
+      'reliability. Service Sphere is your one stop solution';
   static const String serviceNee = 'for all your home service needs.';
 
   static const String findService = 'Find Services';
@@ -50,9 +43,9 @@ class AppStrings {
   static const String cancelBooking = 'Cancel Booking ';
 
   static const String selectPaymentMethod = 'Select Payment method';
-  static const String easyPaisa = 'Easypaisa';
+  static const String easyPaisa = 'Bkash';
   static const String bankAccount = 'Bank account';
-  static const String jazzCash = 'Jazz cash';
+  static const String jazzCash = 'Nagad';
   static const String payPal = 'PayPal';
   static const String viewAll = 'View all';
   static const String maskotKota = 'Maskot Kota';
@@ -97,7 +90,7 @@ class AppStrings {
   static const String forgotPass = 'Forgot Password?';
   static const String signIn = 'Sign In';
 
-  static const String newTo = 'New to fixit?';
+  static const String newTo = 'New to Service Sphere?';
   static const String signUpNow = 'Sign up now';
   static const String signInWith = 'log in with';
   static const String fullName = 'Full name';
@@ -200,7 +193,7 @@ class AppStrings {
   static const String eightPM = '08:00 PM';
   static const String serviceWorkingHours = 'Service working hours';
   static const String howDoYouReceiveOrder = 'How Do you want to receive order';
-  static const String fixit = 'Fixit';
+  static const String fixit = 'Service Sphere';
   static const String client = 'Client';
   static const String save = 'Save';
   static const String editProifle = 'Edit Profile';
@@ -252,7 +245,7 @@ class AppStrings {
   static const String confirmlogout = 'Are you sure to logout?';
   static const String cancel = 'Cancel';
   static const String myProfile = 'My Profile';
-  static const String kalpesh = 'Kalpesh';
+  static const String kalpesh = 'Mehedi Hasan';
   static const String changeProfile = 'Change Profile to selling mode';
 
   static const String editprofile = 'Edit Profile';
@@ -275,11 +268,11 @@ class AppStrings {
   static const String didnot = 'Did not received code?';
 
   static const String sendAgain = 'send again';
-  static const String allow = 'Allow “FixIt” to use your location';
+  static const String allow = 'Allow “Service Sphere” to use your location';
   static const String weSend =
       'We need to know your exact location so that Clients can find you easily near you.';
   static const String allowOnce = 'Allow Once';
-  static const String allowWhile = 'Allow While Using Fixit';
+  static const String allowWhile = 'Allow While Using Service Sphere';
   static const String dontAllow = 'Dont Allow';
   static const String businessAddress = 'Business Address';
   static const String businessName = 'Business name';

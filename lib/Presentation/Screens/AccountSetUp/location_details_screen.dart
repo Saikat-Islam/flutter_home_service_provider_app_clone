@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_home_service_provider_app_clone/AppUtils/app_colors.dart';
 import 'package:flutter_home_service_provider_app_clone/AppUtils/app_images.dart';
@@ -15,8 +17,41 @@ class LocationDetailScreen extends StatefulWidget {
 }
 
 class _LocationDetailsState extends State<LocationDetailScreen> {
-  TextEditingController businessName = TextEditingController();
-  TextEditingController businessAddress = TextEditingController();
+  TextEditingController _businessName = TextEditingController();
+  TextEditingController _businessAddress = TextEditingController();
+
+  void saveNameAndAddress() async {
+    final businessName = _businessName.text.trim();
+    final businessAddress = _businessAddress.text.trim();
+
+    if (businessName.isEmpty && businessAddress.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Please enter name and address')),
+      );
+      return;
+    }
+
+    try {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .set({
+        'business name': businessName,
+        'business address': businessAddress,
+      }, SetOptions(merge: true));
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                AboutServiceScreen()), // Replace with your next page
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error saving data: $e')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -100,7 +135,7 @@ class _LocationDetailsState extends State<LocationDetailScreen> {
                 height: 16,
               ),
               TextFromFieldWidget(
-                controller: businessName,
+                controller: _businessName,
                 hintText: AppStrings.businessName,
                 colors: Colors.black,
               ),
@@ -108,7 +143,7 @@ class _LocationDetailsState extends State<LocationDetailScreen> {
                 height: 16,
               ),
               TextFromFieldWidget(
-                controller: businessAddress,
+                controller: _businessAddress,
                 hintText: AppStrings.businessAddress,
                 colors: Colors.black,
               ),
@@ -117,12 +152,7 @@ class _LocationDetailsState extends State<LocationDetailScreen> {
               ),
               InkWell(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const AboutServiceScreen(),
-                    ),
-                  );
+                  saveNameAndAddress();
                 },
                 child: const ButtonStyleWidget(
                   title: AppStrings.next,

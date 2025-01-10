@@ -1,12 +1,5 @@
 import 'package:flutter/services.dart';
 
-/*
-Title: AppFontWeight used thorough App
-Purpose:AppFontWeight used thorough App
-Created On:12/06/2024
-Edited On:12/06/2024
-Author: Kalpesh Khandla
-*/
 
 class AppFontWeight {
   static const FontWeight fontWeightNormal = FontWeight.normal;

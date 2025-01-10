@@ -1,0 +1,134 @@
+{
+  "project_info": {
+    "project_number": "821740868414",
+    "project_id": "service-sphere-swifttech",
+    "storage_bucket": "service-sphere-swifttech.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:821740868414:android:9ef92589d53065f8ee526f",
+        "android_client_info": {
+          "package_name": "com.example.flutter_home_service_provider_app_clone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "821740868414-mfpuuu7nas80dktlh76ojkgocflp2724.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.flutter_home_service_provider_ap",
+            "certificate_hash": "8cc94c84ac0efa17153463e0c95d104acd7a24c5"
+          }
+        },
+        {
+          "client_id": "821740868414-gil8dv150vebg7n7h34c3g1bea2vqaqb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAm_RsDbfV9oImU1VgPQyDZ06yzdHkKXS8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "821740868414-gil8dv150vebg7n7h34c3g1bea2vqaqb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "821740868414-de4u50mihp14lh6n70v3662vlhot24vq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.flutterHomeServiceProviderAppClone"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:821740868414:android:87a20f56825166c1ee526f",
+        "android_client_info": {
+          "package_name": "com.example.flutter_home_service_provider_ap"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "821740868414-vb1471pe473td8i30084m2g0s1u4bpos.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.flutter_home_service_provider_ap",
+            "certificate_hash": "8cc94c84ac0efa17153463e0c95d104acd7a24c5"
+          }
+        },
+        {
+          "client_id": "821740868414-gil8dv150vebg7n7h34c3g1bea2vqaqb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAm_RsDbfV9oImU1VgPQyDZ06yzdHkKXS8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "821740868414-gil8dv150vebg7n7h34c3g1bea2vqaqb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "821740868414-de4u50mihp14lh6n70v3662vlhot24vq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.flutterHomeServiceProviderAppClone"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:821740868414:android:f6df9806b6e6b3cbee526f",
+        "android_client_info": {
+          "package_name": "com.example.flutter_home_service_provider_ap"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "821740868414-gil8dv150vebg7n7h34c3g1bea2vqaqb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAm_RsDbfV9oImU1VgPQyDZ06yzdHkKXS8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "821740868414-gil8dv150vebg7n7h34c3g1bea2vqaqb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "821740868414-de4u50mihp14lh6n70v3662vlhot24vq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.flutterHomeServiceProviderAppClone"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

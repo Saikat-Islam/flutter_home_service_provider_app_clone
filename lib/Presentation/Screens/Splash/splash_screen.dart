@@ -3,13 +3,7 @@ import 'dart:async';
 import 'package:flutter_home_service_provider_app_clone/AppUtils/app_images.dart';
 import 'package:flutter_home_service_provider_app_clone/Presentation/Screens/Onboarding/welcome_to_fixit_screen.dart';
 
-/*
-Title:SplashScreen
-Purpose:To Show a SplashScreen 
-Created On:12/06/2024
-Edited On:12/06/2024
-Author: Kalpesh Khandla
-*/
+
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

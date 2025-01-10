@@ -5,13 +5,7 @@ import 'package:flutter_home_service_provider_app_clone/AppUtils/app_text_style.
 import 'package:flutter_home_service_provider_app_clone/Presentation/Screens/Auth/login_screen.dart';
 import 'package:flutter_home_service_provider_app_clone/Presentation/Widgets/button_style_widget.dart';
 
-/*
-Title: WelcomeToFixitScreen used thorough App
-Purpose:WelcomeToFixitScreen used thorough App
-Created On: 12/06/2024
-Edited On:12/06/2024
-Author: Kalpesh Khandla
-*/
+
 
 class WelcomeToFixitScreen extends StatefulWidget {
   const WelcomeToFixitScreen({super.key});

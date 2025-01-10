@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_home_service_provider_app_clone/AppUtils/app_colors.dart';
 import 'package:flutter_home_service_provider_app_clone/AppUtils/app_images.dart';
@@ -15,6 +17,37 @@ class ImLookingForScreen extends StatefulWidget {
 }
 
 class _ImLookingForState extends State<ImLookingForScreen> {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  String selectedType = "";
+
+  Future<void> saveAccountType(String accountType) async {
+    try {
+      selectedType = accountType;
+
+      await _firestore
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .set({
+        'accountType': accountType,
+        // 'updatedAt': FieldValue.serverTimestamp(),
+      }, SetOptions(merge: true));
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => PhoneNumberScreen()),
+      );
+
+      // Get.snackbar('Success', 'Account type saved successfully!');
+    } catch (e) {
+      if (selectedType!.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Please select an option')),
+        );
+        return;
+      }
+    }
+  }
+
   bool select1 = false;
   bool select2 = false;
   String iconTrue = AppImages.trueselectImg;
@@ -54,6 +87,7 @@ class _ImLookingForState extends State<ImLookingForScreen> {
             InkWell(
               onTap: () {
                 setState(() {
+                  selectedType = "service provider";
                   img1 = iconTrue;
                   img2 = iconFalse;
                   select1 = true;
@@ -73,6 +107,7 @@ class _ImLookingForState extends State<ImLookingForScreen> {
             InkWell(
               onTap: () {
                 setState(() {
+                  selectedType = "looking for service";
                   img1 = iconFalse;
                   img2 = iconTrue;
                   select1 = false;
@@ -91,12 +126,7 @@ class _ImLookingForState extends State<ImLookingForScreen> {
             ),
             InkWell(
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const PhoneNumberScreen(),
-                  ),
-                );
+                saveAccountType(selectedType);
               },
               child: const ButtonStyleWidget(
                 title: AppStrings.next,

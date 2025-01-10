@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_home_service_provider_app_clone/AppUtils/app_colors.dart';
 import 'package:flutter_home_service_provider_app_clone/AppUtils/app_images.dart';
@@ -48,6 +50,46 @@ class _AboutServiceState extends State<AboutServiceScreen> {
     AppStrings.vastral,
     AppStrings.vastrapur,
   ];
+
+  // Variables to store selected values
+  String? selectedService;
+  String? selectedExperience;
+  String? selectedServiceArea;
+
+  // Function to save the data to Firestore
+  Future<void> selectService() async {
+    if (selectedService == null ||
+        selectedExperience == null ||
+        selectedServiceArea == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Please select all options')),
+      );
+      return;
+    }
+
+    try {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .set({
+        'service': selectedService,
+        'experience': selectedExperience,
+        'area': selectedServiceArea,
+      }, SetOptions(merge: true));
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Data saved successfully!')),
+      );
+      // Navigate to next screen if required
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => ServiceWorkingHoursScreen()));
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error saving data: $e')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,35 +122,48 @@ class _AboutServiceState extends State<AboutServiceScreen> {
             const SizedBox(
               height: 30,
             ),
-            DropdownMenuBoxWidget(
-              itemList: services,
-              hintText: AppStrings.selectaService,
+            Center(
+              child: DropdownButtonFormField<String>(
+                value: selectedService,
+                hint: Text('Select a service'),
+                items: services.map((service) {
+                  return DropdownMenuItem(value: service, child: Text(service));
+                }).toList(),
+                onChanged: (value) => setState(() => selectedService = value),
+                decoration: InputDecoration(border: OutlineInputBorder()),
+              ),
             ),
             const SizedBox(
               height: 16,
             ),
-            DropdownMenuBoxWidget(
-              itemList: experience,
-              hintText: AppStrings.selectYourExperience,
+            DropdownButtonFormField<String>(
+              value: selectedExperience,
+              hint: Text('Select Your Experience'),
+              items: experience.map((experience) {
+                return DropdownMenuItem(
+                    value: experience, child: Text(experience));
+              }).toList(),
+              onChanged: (value) => setState(() => selectedExperience = value),
+              decoration: InputDecoration(border: OutlineInputBorder()),
             ),
             const SizedBox(
               height: 16,
             ),
-            DropdownMenuBoxWidget(
-              itemList: area,
-              hintText: AppStrings.selectServiceArea,
+            DropdownButtonFormField<String>(
+              value: selectedServiceArea,
+              hint: Text('Select Your Area'),
+              items: area.map((area) {
+                return DropdownMenuItem(value: area, child: Text(area));
+              }).toList(),
+              onChanged: (value) => setState(() => selectedServiceArea = value),
+              decoration: InputDecoration(border: OutlineInputBorder()),
             ),
             const SizedBox(
               height: 126,
             ),
             InkWell(
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const ServiceWorkingHoursScreen(),
-                  ),
-                );
+                selectService();
               },
               child: const ButtonStyleWidget(
                 title: AppStrings.next,

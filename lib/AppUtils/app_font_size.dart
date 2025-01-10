@@ -1,10 +1,4 @@
-/*
-Title: AppFontSize used thorough App
-Purpose:AppFontSize used thorough App
-Created On: 12/06/2024
-Edited On:12/06/2024
-Author: Kalpesh Khandla
-*/
+
 
 class AppFontSize {
   static const double fontSize8 = 8;

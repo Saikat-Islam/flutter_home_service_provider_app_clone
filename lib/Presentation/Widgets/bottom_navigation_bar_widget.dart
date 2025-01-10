@@ -5,13 +5,7 @@ import 'package:flutter_home_service_provider_app_clone/Presentation/Screens/Hom
 import 'package:flutter_home_service_provider_app_clone/Presentation/Screens/Order/order_screens.dart';
 import 'package:flutter_home_service_provider_app_clone/Presentation/Screens/ServiceSeekerProfile/service_seeker_profile.dart';
 
-/*
-Title:BottomNavigationBarWidget
-Purpose:BottomNavigationBarWidget
-Created On:12/06/2024
-Edited On:12/06/2024
-Author: Kalpesh Khandla
-*/
+
 
 class BottomNavigationBarWidget extends StatefulWidget {
   const BottomNavigationBarWidget({super.key});

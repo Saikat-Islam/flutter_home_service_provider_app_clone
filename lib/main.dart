@@ -1,16 +1,14 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_home_service_provider_app_clone/AppUtils/app_strings.dart';
 import 'package:flutter_home_service_provider_app_clone/Presentation/Screens/Splash/splash_screen.dart';
+import 'package:flutter_home_service_provider_app_clone/firebase_options.dart';
+import 'package:flutter_home_service_provider_app_clone/global.dart';
 
-/*
-Title:Entry Point of a App
-Purpose:Entry Point of a App
-Created On:12/06/2024
-Edited On:12/06/2024
-Author: Kalpesh Khandla
-*/
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 

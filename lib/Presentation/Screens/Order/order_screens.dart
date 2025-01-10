@@ -7,13 +7,7 @@ import 'package:flutter_home_service_provider_app_clone/Presentation/Widgets/pai
 import 'package:flutter_home_service_provider_app_clone/Presentation/Widgets/schedule_widget.dart';
 import 'package:flutter_home_service_provider_app_clone/Presentation/Widgets/text_container_widget.dart';
 
-/*
-Title:OrderScreens
-Purpose:OrderScreens
-Created On:12/06/2024
-Edited On:12/06/2024
-Author: Kalpesh Khandla
-*/
+
 
 class OrderScreens extends StatefulWidget {
   const OrderScreens({super.key});

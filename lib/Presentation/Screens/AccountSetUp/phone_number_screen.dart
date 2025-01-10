@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_home_service_provider_app_clone/AppUtils/app_colors.dart';
 import 'package:flutter_home_service_provider_app_clone/AppUtils/app_images.dart';
@@ -14,10 +16,39 @@ class PhoneNumberScreen extends StatefulWidget {
 }
 
 class _PhoneNumberState extends State<PhoneNumberScreen> {
+  final TextEditingController phoneController = TextEditingController();
+
+  void savePhoneNumberAndNavigate() async {
+    final phoneNumber = phoneController.text.trim();
+
+    if (phoneNumber.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Please enter a phone number')),
+      );
+      return;
+    }
+
+    try {
+      await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser!.uid)
+          .set({
+        'phone': phoneNumber,
+      }, SetOptions(merge: true));
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                PhoneNumberCodeScreen()), // Replace with your next page
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error saving data: $e')),
+      );
+    }
+  }
+
   String selectedImagePath = AppImages.indiaImg;
 
   int selectedNumber = 91;
-  TextEditingController numberController = TextEditingController();
 
   final List<MenuItem> items = [
     MenuItem(
@@ -159,19 +190,14 @@ class _PhoneNumberState extends State<PhoneNumberScreen> {
             ),
             PhoneNumberEnterWidget(
               items: items,
-              numberController: numberController,
+              numberController: phoneController,
             ),
             const SizedBox(
               height: 84,
             ),
             InkWell(
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const PhoneNumberCodeScreen(),
-                  ),
-                );
+                savePhoneNumberAndNavigate();
               },
               child: const ButtonStyleWidget(
                 title: AppStrings.sendCode,

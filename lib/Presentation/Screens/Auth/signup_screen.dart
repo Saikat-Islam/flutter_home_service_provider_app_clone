@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_home_service_provider_app_clone/AppUtils/app_colors.dart';
 import 'package:flutter_home_service_provider_app_clone/AppUtils/app_images.dart';
@@ -17,10 +19,81 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final nameController = TextEditingController();
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+  // final nameController = TextEditingController();
+  // final emailController = TextEditingController();
+  // final passwordController = TextEditingController();
+
+  Future<void> _signup(BuildContext context) async {
+    String name = _nameController.text.trim();
+    String email = _emailController.text.trim();
+    String password = _passwordController.text.trim();
+
+    if (name.isEmpty || email.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Please fill all fields")),
+      );
+      return;
+    }
+
+    try {
+      // Check if the email is already registered
+      final query = await FirebaseFirestore.instance
+    .collection('users')
+    .where('email', isEqualTo: email)
+    .get();
+      if (query.docs.isNotEmpty) {
+        // Email is already registered
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text("Email Already Exists"),
+            content:
+                Text("This email is already registered. Please try another."),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: Text("OK"),
+              ),
+            ],
+          ),
+        );
+        return;
+      }
+
+      // Create a new user
+      UserCredential userCredential =
+          await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      // Save user details to Firestore
+      await _firestore.collection('users').doc(userCredential.user!.uid).set({
+        'createdAt': DateTime.now(),
+        'name': name,
+        'email': email,
+      });
+
+      // Navigate to the next page
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => ImLookingForScreen()),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Signup failed: $e")),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     // final double lineSize = MediaQuery.of(context).size.width * 0.38;
@@ -47,7 +120,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 height: 30,
               ),
               TextFormFieldBoxUserWidget(
-                controller: nameController,
+                controller: _nameController,
                 hintText: AppStrings.fullName,
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -61,7 +134,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 height: 16,
               ),
               TextFormFieldBoxUserWidget(
-                controller: emailController,
+                controller: _emailController,
                 hintText: AppStrings.enterEmail,
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -75,7 +148,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 height: 16,
               ),
               TextFromFieldBoxPassword(
-                controller: passwordController,
+                controller: _passwordController,
                 hintText: AppStrings.enterPass,
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -94,10 +167,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
               InkWell(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ImLookingForScreen()));
+                  print("signup");
+                  _signup(context);
                 },
                 child: const ButtonStyleWidget(
                   title: AppStrings.signUp,
@@ -138,7 +209,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               const SizedBox(
                 height: 24,
               ),
-              const GoogleOrFacebookWidget(
+              GoogleOrFacebookWidget(
                 title: AppStrings.signUpWith,
               ),
             ],
