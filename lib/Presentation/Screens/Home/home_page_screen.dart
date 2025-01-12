@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_home_service_provider_app_clone/AppUtils/app_colors.dart';
 import 'package:flutter_home_service_provider_app_clone/AppUtils/app_constants.dart';
@@ -9,10 +11,21 @@ import 'package:flutter_home_service_provider_app_clone/Presentation/Screens/Ser
 import 'package:flutter_home_service_provider_app_clone/Presentation/Widgets/service_card_widget.dart';
 import 'package:flutter_home_service_provider_app_clone/Presentation/Widgets/service_provider_card_widget.dart';
 
-class HomePageScreen extends StatelessWidget {
+class HomePageScreen extends StatefulWidget {
   const HomePageScreen({
     super.key,
   });
+
+  @override
+  State<HomePageScreen> createState() => _HomePageScreenState();
+}
+
+class _HomePageScreenState extends State<HomePageScreen> {
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -191,24 +204,31 @@ class HomePageScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(
-                height: 240,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: AppConstants.serviceProvider.length,
-                  itemBuilder: (context, index) {
-                    return ServiceProviderCardWidget(
-                      name: AppConstants.serviceProvider[index].name.toString(),
-                      profession: AppConstants.serviceProvider[index].profession
-                          .toString(),
-                      rating:
-                          AppConstants.serviceProvider[index].rating.toString(),
-                      imageUrl: AppConstants.serviceProvider[index].imageUrl
-                          .toString(),
-                    );
-                  },
-                ),
-              ),
+            
+              StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection('users')
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return CircularProgressIndicator();
+                    } else {
+                      return SizedBox(
+                        height: 240,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: snapshot.data!.docs.length,
+                          itemBuilder: (context, index) {
+                            return ServiceProviderCardWidget(
+                              name: snapshot.data!.docs[index]['name'],
+                              profession: snapshot.data!.docs[index]['service'],
+                              rating: "4.5",
+                            );
+                          },
+                        ),
+                      );
+                    }
+                  })
             ],
           ),
         ),

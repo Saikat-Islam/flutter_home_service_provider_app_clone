@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_home_service_provider_app_clone/AppUtils/app_colors.dart';
+import 'package:flutter_home_service_provider_app_clone/AppUtils/app_constants.dart';
 
 class ServiceProviderCardWidget extends StatelessWidget {
   final String name;
   final String profession;
   final String rating;
-  final String imageUrl;
 
   const ServiceProviderCardWidget({
     super.key,
     required this.name,
     required this.profession,
     required this.rating,
-    required this.imageUrl,
   });
 
   @override
@@ -37,7 +36,8 @@ class ServiceProviderCardWidget extends StatelessWidget {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(6),
                       image: DecorationImage(
-                          image: AssetImage(imageUrl), fit: BoxFit.fill)),
+                          image: AssetImage(AppConstants.useOnlyOneImage),
+                          fit: BoxFit.fill)),
                 ),
                 const SizedBox(
                   height: 3,

@@ -1,5 +1,3 @@
-
-
 import 'package:flutter_home_service_provider_app_clone/AppUtils/app_images.dart';
 import 'package:flutter_home_service_provider_app_clone/AppUtils/app_strings.dart';
 import 'package:flutter_home_service_provider_app_clone/Models/service_icon.dart';
@@ -8,7 +6,7 @@ import 'package:flutter_home_service_provider_app_clone/Models/service_provider.
 class AppConstants {
   // Base Image Path
   static const String baseImagePath = 'assets/images';
-
+  static const String useOnlyOneImage = 'assets/images/dead.png';
   // Base Icon Path
   static const String baseIconPath = 'assets/icons';
 

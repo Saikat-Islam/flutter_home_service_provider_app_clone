@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_home_service_provider_app_clone/AppUtils/app_colors.dart';
 import 'package:flutter_home_service_provider_app_clone/AppUtils/app_images.dart';
@@ -20,6 +22,15 @@ class ServiceSeekerProfileScreen extends StatefulWidget {
 }
 
 class _ServiceSeekerProfileState extends State<ServiceSeekerProfileScreen> {
+  final CollectionReference users =
+      FirebaseFirestore.instance.collection('users');
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  //if ologout button tapped...
   void _showConfirmationDialog() {
     showDialog(
       context: context,
@@ -84,6 +95,7 @@ class _ServiceSeekerProfileState extends State<ServiceSeekerProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final String uid = FirebaseAuth.instance.currentUser!.uid;
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -121,11 +133,7 @@ class _ServiceSeekerProfileState extends State<ServiceSeekerProfileScreen> {
                 ),
               ),
             ),
-            Text(
-              AppStrings.kalpesh,
-              style:
-                  AppTextStyle.textStyle.copyWith(fontWeight: FontWeight.w600),
-            ),
+            ShowUserName(userId: uid),
             ProfileCardEditWidget(
                 title: AppStrings.editProifle,
                 image: AppImages.editeprofileImg,
@@ -255,14 +263,10 @@ class _ServiceSeekerProfileState extends State<ServiceSeekerProfileScreen> {
                     const SizedBox(
                       width: 3,
                     ),
-                    const Text(
-                      AppStrings.kalpesh,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 18,
-                        color: Colors.blue,
-                      ),
-                    ),
+                    ShowUserName(
+                      userId: uid,
+                      color: Colors.blue,
+                    )
                   ],
                 ),
               ),
@@ -270,6 +274,54 @@ class _ServiceSeekerProfileState extends State<ServiceSeekerProfileScreen> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class ShowUserName extends StatelessWidget {
+  const ShowUserName({
+    super.key,
+    required this.userId,
+    this.color,
+  });
+  final String userId;
+  final Color? color;
+
+  Future<Map<String, dynamic>?> _fetchUserData() async {
+    try {
+      final doc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .get();
+      return doc.data();
+    } catch (e) {
+      print('Error fetching user data: $e');
+      return null;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<Map<String, dynamic>?>(
+      future: _fetchUserData(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (snapshot.hasError || snapshot.data == null) {
+          return const Center(child: Text('Error fetching user data.'));
+        }
+
+        final userData = snapshot.data!;
+        return Center(
+          child: Text(
+            userData['name'],
+            style: AppTextStyle.textStyle.copyWith(
+                fontWeight: FontWeight.w600, fontSize: 20, color: color),
+          ),
+        );
+      },
     );
   }
 }

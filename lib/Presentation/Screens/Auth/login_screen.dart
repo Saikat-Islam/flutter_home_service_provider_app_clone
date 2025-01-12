@@ -7,6 +7,7 @@ import 'package:flutter_home_service_provider_app_clone/AppUtils/app_strings.dar
 import 'package:flutter_home_service_provider_app_clone/Presentation/Screens/AccountSetUp/im_looking_for_screen.dart';
 import 'package:flutter_home_service_provider_app_clone/Presentation/Screens/Auth/signup_screen.dart';
 import 'package:flutter_home_service_provider_app_clone/Presentation/Screens/Home/home_page_screen.dart';
+import 'package:flutter_home_service_provider_app_clone/Presentation/Widgets/bottom_navigation_bar_widget.dart';
 import 'package:flutter_home_service_provider_app_clone/Presentation/Widgets/button_style_widget.dart';
 import 'package:flutter_home_service_provider_app_clone/Presentation/Widgets/google_or_facebook_widget.dart';
 import 'package:flutter_home_service_provider_app_clone/Presentation/Widgets/textfromfield_box_widget.dart';
@@ -47,7 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
       // If successful, navigate to home page
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => HomePageScreen()),
+        MaterialPageRoute(builder: (context) => BottomNavigationBarWidget()),
       );
     } on FirebaseAuthException catch (e) {
       String errorMessage = "";
@@ -175,7 +176,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 onTap: () {
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
-                      builder: (context) => const SignUpScreen(),
+                      builder: (context) => SignUpScreen(),
                     ),
                   );
                 },

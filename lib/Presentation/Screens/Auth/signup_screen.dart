@@ -12,7 +12,7 @@ import 'package:flutter_home_service_provider_app_clone/Presentation/Widgets/tex
 import 'login_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({super.key});
+   const SignUpScreen({super.key});
 
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
@@ -22,7 +22,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -32,7 +32,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   // final passwordController = TextEditingController();
 
   Future<void> _signup(BuildContext context) async {
-    String name = _nameController.text.trim();
+    String name = nameController.text.trim();
     String email = _emailController.text.trim();
     String password = _passwordController.text.trim();
 
@@ -120,7 +120,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 height: 30,
               ),
               TextFormFieldBoxUserWidget(
-                controller: _nameController,
+                controller: nameController,
                 hintText: AppStrings.fullName,
                 validator: (value) {
                   if (value!.isEmpty) {

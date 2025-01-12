@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_home_service_provider_app_clone/AppUtils/app_strings.dart';
+import 'package:flutter_home_service_provider_app_clone/Presentation/Screens/Auth/signup_screen.dart';
 import 'package:flutter_home_service_provider_app_clone/Presentation/Screens/City/city_screens.dart';
 import 'package:flutter_home_service_provider_app_clone/Presentation/Screens/Home/home_page_screen.dart';
 import 'package:flutter_home_service_provider_app_clone/Presentation/Screens/Order/order_screens.dart';
 import 'package:flutter_home_service_provider_app_clone/Presentation/Screens/ServiceSeekerProfile/service_seeker_profile.dart';
-
-
 
 class BottomNavigationBarWidget extends StatefulWidget {
   const BottomNavigationBarWidget({super.key});
